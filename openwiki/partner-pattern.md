@@ -36,10 +36,10 @@ sources:
     resource: repo://libs/partners/openai/tests/unit_tests/chat_models/test_responses_standard.py
   - id: openwiki-source-025cad4ae99967890152b7e0
     resource: repo://libs/standard-tests/README.md
-generated: { by: "openwiki/0.5.0", at: "2026-09-22T08:27:06.345Z" }
+generated: { by: "openwiki/0.5.0", at: "2026-09-30T08:28:48.201Z" }
 verified:
   - by: openwiki/0.5.0
-    at: 2026-09-28T08:35:20.640Z
+    at: 2026-09-30T08:28:48.201Z
 ---
 
 ## Overview
@@ -108,7 +108,7 @@ requires-python = ">=3.10.0,<4.0.0"
 version = "0.1.0"
 
 dependencies = [
-    "langchain-core>=1.6.2,<2.0.0",           # Required: base LangChain
+    "langchain-core>=1.6.4,<2.0.0",           # Required: base LangChain
     "provider-client-library>=2.45.0,<4.0.0", # Provider's own SDK (pinned version)
     "certifi>=2024.6.2",                      # SSL certificates
 ]
@@ -669,9 +669,6 @@ Create `tests/unit_tests/chat_models/test_standard.py` (reference: `/libs/standa
 ```python
 """Standard LangChain interface tests for ChatProviderModel."""
 
-from typing import Type
-
-import pytest
 from langchain_core.language_models import BaseChatModel
 from langchain_tests.unit_tests import ChatModelUnitTests
 
@@ -681,11 +678,11 @@ from langchain_provider_name import ChatProviderModel
 class TestProviderModelStandard(ChatModelUnitTests):
     """Standard unit tests for ChatProviderModel."""
     
-    @pytest.fixture
-    def chat_model_class(self) -> Type[BaseChatModel]:
+    @property
+    def chat_model_class(self) -> type[BaseChatModel]:
         return ChatProviderModel
     
-    @pytest.fixture
+    @property
     def chat_model_params(self) -> dict:
         """Parameters to instantiate the chat model.
         
@@ -699,6 +696,8 @@ class TestProviderModelStandard(ChatModelUnitTests):
 
 **Configurable test fixtures** (from `langchain-tests` README):
 
+These are defined as `@property` methods (current pattern) or `@pytest.fixture` decorated methods:
+
 - `chat_model_class` (required): The `BaseChatModel` subclass to test
 - `chat_model_params`: Kwargs for instantiation (defaults to empty dict)
 - `chat_model_has_tool_calling`: Whether the model supports `bind_tools()` (auto-detected)
@@ -711,9 +710,6 @@ Create `tests/integration_tests/chat_models/test_standard.py`:
 ```python
 """Standard integration tests for ChatProviderModel."""
 
-from typing import Type
-
-import pytest
 from langchain_core.language_models import BaseChatModel
 from langchain_tests.integration_tests import ChatModelIntegrationTests
 
@@ -723,11 +719,11 @@ from langchain_provider_name import ChatProviderModel
 class TestProviderModelIntegration(ChatModelIntegrationTests):
     """Standard integration tests for ChatProviderModel."""
     
-    @pytest.fixture
-    def chat_model_class(self) -> Type[BaseChatModel]:
+    @property
+    def chat_model_class(self) -> type[BaseChatModel]:
         return ChatProviderModel
     
-    @pytest.fixture
+    @property
     def chat_model_params(self) -> dict:
         """Live API credentials (loaded from environment)."""
         return {
